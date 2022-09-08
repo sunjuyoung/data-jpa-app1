@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.PageRequestDto;
+import com.example.demo.dto.PageResponseDto;
 import com.example.demo.entity.Board;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,24 @@ class BoardServiceImplTest {
     @Autowired
     BoardService boardService;
 
+
+
+    @Test
+    public void test() throws Exception{
+        //given
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+        .type("tcw")
+        .keyword("1")
+                .page(1)
+                .size(5)
+                .build();
+
+        PageResponseDto<BoardDto> list = boardService.list(pageRequestDto);
+        log.info(list);
+        //when
+
+        //then
+    }
 
     @Test
     public void modify() throws Exception{

@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.PageRequestDto;
+import com.example.demo.dto.PageResponseDto;
 
 public interface BoardService {
 
@@ -11,4 +13,6 @@ public interface BoardService {
     void modify(BoardDto boardDto);
 
     void remove(Long id);
+
+    PageResponseDto<BoardDto> list(PageRequestDto pageRequestDto);
 }
