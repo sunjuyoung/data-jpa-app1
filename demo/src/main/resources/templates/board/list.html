@@ -114,13 +114,10 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-
     document.querySelector(".pagination").addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
         const target = e.target;
-        console.log(target);
-        console.log(target.tagName);
         if(target.tagName !== 'A'){
             return;
         }
@@ -129,8 +126,15 @@
         const formObj = document.querySelector("form")
         formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
         formObj.submit();
+    },false);
+
+    const result = [[${result}]]
+
+    if(result){
+        $('.modal').modal('show')
+    }
 
 
-    },false)
+
 </script>
 
