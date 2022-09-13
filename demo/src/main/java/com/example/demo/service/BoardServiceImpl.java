@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardListReplyCountDto;
 import com.example.demo.dto.PageRequestDto;
 import com.example.demo.dto.PageResponseDto;
 import com.example.demo.entity.Board;
@@ -31,6 +32,11 @@ public class BoardServiceImpl implements BoardService{
         String keyword = pageRequestDto.getKeyword();
         Pageable pageable = pageRequestDto.getPageable("id");
 
+        Page<BoardListReplyCountDto> result = boardRepository.searchWithReplyCount(types, keyword, pageable);
+
+        List<BoardListReplyCountDto> content = result.getContent();
+
+
         Page<Board> boardPage = boardRepository.searchAll(types, keyword, pageable);
         List<BoardDto> dtoList = boardPage.getContent().stream()
                 .map(board -> modelMapper.map(board, BoardDto.class)).collect(Collectors.toList());
@@ -40,6 +46,24 @@ public class BoardServiceImpl implements BoardService{
                 .pageRequestDto(pageRequestDto)
                 .dtoList(dtoList)
                 .total((int)boardPage.getTotalElements())
+                .build();
+    }
+
+    @Override
+    public PageResponseDto<BoardListReplyCountDto> listWithReplyCount(PageRequestDto pageRequestDto) {
+        String[] types = pageRequestDto.getTypes();
+        String keyword = pageRequestDto.getKeyword();
+        Pageable pageable = pageRequestDto.getPageable("id");
+
+        Page<BoardListReplyCountDto> result = boardRepository.searchWithReplyCount(types, keyword, pageable);
+
+        List<BoardListReplyCountDto> content = result.getContent();
+
+
+        return  PageResponseDto.<BoardListReplyCountDto>withAll()
+                .pageRequestDto(pageRequestDto)
+                .dtoList(content)
+                .total((int)result.getTotalElements())
                 .build();
     }
 

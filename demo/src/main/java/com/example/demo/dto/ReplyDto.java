@@ -15,12 +15,14 @@ import java.time.LocalDateTime;
 public class ReplyDto {
 
     private Long id;
+
     private Long board_id;
 
     @NotEmpty
     private String replyText;
     @NotEmpty
     private String replyer;
+
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 

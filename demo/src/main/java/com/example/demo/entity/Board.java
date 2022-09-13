@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "board")
@@ -23,6 +25,7 @@ public class Board extends BaseTime{
 
     @Column(length = 100, nullable = false)
     private String writer;
+
 
 
     public void change(String title, String content){

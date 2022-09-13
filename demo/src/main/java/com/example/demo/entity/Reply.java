@@ -25,5 +25,6 @@ public class Reply extends BaseTime{
     private Board board;
 
     private String replyText;
+
     private String replyer;
 }

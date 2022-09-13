@@ -37,17 +37,19 @@ class ReplyRepositoryTest {
     @Test
     public void test() throws Exception{
         //given
-        Long board_id = 21L;
+        Long board_id = 17L;
         Board board = Board.builder().id(board_id).build();
 
-        Reply reply = Reply.builder()
-                .board(board)
-                .replyText("test...reply1")
-                .replyer("user2")
-                .build();
-        Reply save = replyRepository.save(reply);
+        for(int i=1; i<3; i++){
+            Reply reply = Reply.builder()
+                    .board(board)
+                    .replyText("test...reply"+i)
+                    .replyer("user2")
+                    .build();
+            Reply save = replyRepository.save(reply);
+        }
 
-        assertEquals(save.getReplyer(),"user2");
+
         //when
 
         //then

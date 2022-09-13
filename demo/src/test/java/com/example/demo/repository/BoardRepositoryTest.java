@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.BoardListReplyCountDto;
 import com.example.demo.entity.Board;
 import com.example.demo.entity.Member;
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,18 @@ class BoardRepositoryTest {
     PasswordEncoder passwordEncoder;
 
     @Test
-    public void modify() throws Exception{
+    public void querydslDtoReplyCount() throws Exception{
         //given
 
+        String[] types  = {"t","c"};
+        Pageable pageable = PageRequest.of(0,5,Sort.by("id").descending());
+        String keyword = "1";
+        Page<BoardListReplyCountDto> result = boardRepository.searchWithReplyCount(types, keyword, pageable);
 
-        //when
+        result.getContent().forEach(board ->{
+            System.out.println(board);
+        });
 
-        //then
     }
 
     @Test
