@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BoardRepository extends JpaRepository<Board,Long> , BoardSearch {
 
-    Page<Board> findByContentContainingOrderByIdDesc(String content, Pageable pageable);
+    //Page<Board> findByContentContainingOrderByBoard_idDesc(String content, Pageable pageable);
 
     @Query("select b from Board b where b.content like concat('%', :content, '%') ")
     Page<Board> findContentKeyword(String content,Pageable pageable);

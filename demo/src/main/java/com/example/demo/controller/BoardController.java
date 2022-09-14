@@ -45,7 +45,7 @@ public class BoardController {
         }
         boardService.modify(boardDto);
         redirectAttributes.addFlashAttribute("result","수정완료");
-        return "redirect:/board/read?id="+boardDto.getId();
+        return "redirect:/board/read?id="+boardDto.getBoard_id();
     }
 
 

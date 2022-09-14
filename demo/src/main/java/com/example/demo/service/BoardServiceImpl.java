@@ -70,7 +70,7 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     @Override
     public void modify(BoardDto boardDto) {
-        Board board = boardRepository.findById(boardDto.getId()).orElseThrow();
+        Board board = boardRepository.findById(boardDto.getBoard_id()).orElseThrow();
         board.change(boardDto.getTitle(),boardDto.getContent());
     }
 
@@ -91,6 +91,6 @@ public class BoardServiceImpl implements BoardService{
     public Long register(BoardDto boardDto) {
         Board board = modelMapper.map(boardDto, Board.class);
         Board newBoard = boardRepository.save(board);
-        return newBoard.getId();
+        return newBoard.getBoard_id();
     }
 }

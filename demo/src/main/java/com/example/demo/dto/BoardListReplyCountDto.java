@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class BoardListReplyCountDto {
 
-    private Long id;
+    private Long board_id;
 
     @NotEmpty
     @Size(min = 3,max = 100)

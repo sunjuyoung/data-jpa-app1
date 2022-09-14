@@ -14,12 +14,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReplyDto {
 
-    private Long id;
+    private Long reply_id;
 
     private Long board_id;
 
+
     @NotEmpty
     private String replyText;
+
     @NotEmpty
     private String replyer;
 

@@ -41,7 +41,7 @@ class BoardServiceImplTest {
     public void modify() throws Exception{
         //given
         BoardDto board = BoardDto.builder()
-                .id(5L)
+                .board_id(5L)
                 .title("modify title...")
                 .content("modify content...")
                 .writer("user2")

@@ -48,12 +48,12 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
             }
             query.where(builder);
         }
-        query.where(board.id.gt(0L));
+        query.where(board.board_id.gt(0L));
 
         //Projections.bean() 이용해서 dto로 처리
         JPQLQuery<BoardListReplyCountDto> dtoJPQLQuery =
                 query.select(Projections.bean(BoardListReplyCountDto.class,
-                        board.id,
+                        board.board_id,
                         board.title,
                         board.writer,
                         board.createdDate,
@@ -86,7 +86,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
             }
             query.where(booleanBuilder);
         }
-        query.where(board.id.gt(0L));
+        query.where(board.board_id.gt(0L));
         this.getQuerydsl().applyPagination(pageable,query);
         List<Board> list = query.fetch();
 

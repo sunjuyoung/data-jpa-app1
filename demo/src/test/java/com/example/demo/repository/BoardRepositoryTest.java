@@ -79,14 +79,14 @@ class BoardRepositoryTest {
     @Test
     public void test1() throws Exception{
         //given
-        Pageable pageable = PageRequest.of(0,5,Sort.by("id").descending());
-        Page<Board> change = boardRepository.findByContentContainingOrderByIdDesc("change", pageable);
+/*        Pageable pageable = PageRequest.of(0,5,Sort.by("id").descending());
+        Page<Board> change = boardRepository.findByContentContainingOrderByBoard_idDesc("change", pageable);
        // Page<Board> change = boardRepository.findContentKeyword("change", pageable);
 
         List<Board> content = change.getContent();
         for(Board board : content){
             System.out.println(board.toString());
-        }
+        }*/
     }
 
 

@@ -18,7 +18,7 @@ public class Reply extends BaseTime{
 
     @Column(name = "reply_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reply_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -27,4 +27,8 @@ public class Reply extends BaseTime{
     private String replyText;
 
     private String replyer;
+
+    public void changeText(String replyText){
+        this.replyText = replyText;
+    }
 }

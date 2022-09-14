@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BoardDto {
 
-    private Long id;
+    private Long board_id;
 
     @NotEmpty
     @Size(min = 3,max = 100)
