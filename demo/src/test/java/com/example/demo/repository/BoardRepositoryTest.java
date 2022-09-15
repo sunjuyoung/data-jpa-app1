@@ -117,7 +117,7 @@ class BoardRepositoryTest {
             Board board = Board.builder()
                     .content("content...."+i)
                     .title("title..."+i)
-                    .writer("user"+i)
+                    .username("user"+i)
                     .build();
 
             boardRepository.save(board);

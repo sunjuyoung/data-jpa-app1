@@ -24,7 +24,7 @@ public class Board extends BaseTime{
     private String content;
 
     @Column(length = 100, nullable = false)
-    private String writer;
+    private String username;
 
 
 

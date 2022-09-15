@@ -10,6 +10,7 @@ import com.example.demo.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,8 @@ public class ReplyServiceImpl implements ReplyService{
 
     @Transactional
     @Override
-    public Long modify(ReplyDto replyDto) {
-        Reply reply = replyRepository.findById(replyDto.getReply_id()).orElseThrow();
+    public Long modify(ReplyDto replyDto,Long reply_id) {
+        Reply reply = replyRepository.findById(reply_id).orElseThrow();
         reply.changeText(replyDto.getReplyText());
         return reply.getReply_id();
     }
@@ -50,11 +51,20 @@ public class ReplyServiceImpl implements ReplyService{
     @Override
     public PageResponseDto<ReplyDto> listOfBoard(Long board_id, PageRequestDto pageRequestDto) {
        // Board board = boardRepository.findById(board_id).orElseThrow();
-        Pageable pageable = pageRequestDto.getPageable("reply_id");
-        List<ReplyDto> listOfBoard = replyRepository.getListOfBoard(board_id,pageable);
+        Pageable pageable = pageRequestDto.getPageable("createdDate");
+        Page<ReplyDto> listOfBoard = replyRepository.getListOfBoard(board_id, pageable);
+        List<ReplyDto> replyDtoList = listOfBoard.getContent();
         return PageResponseDto.<ReplyDto>withAll()
                 .pageRequestDto(pageRequestDto)
-                .dtoList(listOfBoard)
+                .dtoList(replyDtoList)
+                .total((int)listOfBoard.getTotalElements())
                 .build();
+    }
+
+    @Override
+    public ReplyDto getReply(Long reply_id) {
+        Reply reply = replyRepository.findById(reply_id).orElseThrow();
+        ReplyDto replyDto = modelMapper.map(reply, ReplyDto.class);
+        return replyDto;
     }
 }

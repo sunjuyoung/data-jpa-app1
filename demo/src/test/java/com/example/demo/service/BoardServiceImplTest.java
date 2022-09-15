@@ -44,7 +44,7 @@ class BoardServiceImplTest {
                 .board_id(5L)
                 .title("modify title...")
                 .content("modify content...")
-                .writer("user2")
+                .username("user2")
                 .build();
         boardService.modify(board);
 
@@ -61,7 +61,7 @@ class BoardServiceImplTest {
         BoardDto board = BoardDto.builder()
                 .title("sample title...")
                 .content("sample content...")
-                .writer("user2")
+                .username("user2")
                 .build();
         Long id = boardService.register(board);
 

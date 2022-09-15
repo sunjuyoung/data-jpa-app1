@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.ReplyDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,9 +27,11 @@ public class Reply extends BaseTime{
 
     private String replyText;
 
-    private String replyer;
+    private String username;
 
     public void changeText(String replyText){
         this.replyText = replyText;
     }
+
+
 }

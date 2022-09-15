@@ -42,7 +42,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                     break;
                     case "c" : builder.or(board.content.containsIgnoreCase(keyword));
                     break;
-                    case "w" : builder.or(board.writer.containsIgnoreCase(keyword));
+                    case "w" : builder.or(board.username.containsIgnoreCase(keyword));
                     break;
                 }
             }
@@ -55,7 +55,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                 query.select(Projections.bean(BoardListReplyCountDto.class,
                         board.board_id,
                         board.title,
-                        board.writer,
+                        board.username,
                         board.createdDate,
                         reply.count().as("replyCount")));
 
@@ -79,7 +79,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                         break;
                     case "c": booleanBuilder.or(board.content.contains(keyword));
                         break;
-                    case "w" : booleanBuilder.or(board.writer.contains(keyword));
+                    case "w" : booleanBuilder.or(board.username.contains(keyword));
                     break;
 
                 }

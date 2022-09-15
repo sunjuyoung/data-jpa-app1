@@ -23,13 +23,24 @@ class ReplyRepositoryTest {
 
 
     @Test
+    public void tes3() throws Exception{
+        //given
+
+        //when
+
+        //then
+    }
+
+    @Test
     public void listOfBoard() throws Exception{
         //given
-        Pageable pageable = PageRequest.of(0,4,Sort.by("reply_id").descending());
+        Sort reply_id = Sort.by("createdDate").descending();
+        Pageable pageable = PageRequest.of(0,4,reply_id);
         Long board_id = 20L;
-        List<ReplyDto> listOfBoard = replyRepository.getListOfBoard(board_id, pageable);
+        Page<ReplyDto> listOfBoard = replyRepository.getListOfBoard(board_id, pageable);
+        List<ReplyDto> content = listOfBoard.getContent();
 
-        for(ReplyDto dto : listOfBoard){
+        for(ReplyDto dto : content){
             System.out.println(dto);
         }
         //when
@@ -53,14 +64,16 @@ class ReplyRepositoryTest {
     @Test
     public void test() throws Exception{
         //given
-        Long board_id = 19L;
+        Long board_id = 18L;
+
         Board board = Board.builder().board_id(board_id).build();
 
-        for(int i=1; i<5; i++){
+        for(int i=1; i<3; i++){
+            String username = "user"+i;
             Reply reply = Reply.builder()
                     .board(board)
                     .replyText("test...reply"+i)
-                    .replyer("user2")
+                    .username(username)
                     .build();
             Reply save = replyRepository.save(reply);
         }

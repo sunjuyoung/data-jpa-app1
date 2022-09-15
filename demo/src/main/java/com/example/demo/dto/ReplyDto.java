@@ -23,7 +23,7 @@ public class ReplyDto {
     private String replyText;
 
     @NotEmpty
-    private String replyer;
+    private String username;
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;

@@ -18,28 +18,50 @@ import java.util.List;
 import static com.example.demo.entity.QBoard.*;
 import static com.example.demo.entity.QReply.*;
 
-public class ReplyRepositoryImpl extends QuerydslRepositorySupport implements ReplyCustomRepository {
+public class ReplyCustomRepositoryImpl extends QuerydslRepositorySupport implements ReplyCustomRepository {
 
-    public ReplyRepositoryImpl() {
+    public ReplyCustomRepositoryImpl() {
         super(Reply.class);
     }
 
     @Override
-    public List<ReplyDto> getListOfBoard(Long board_id,Pageable pageable) {
+    public Page<ReplyDto> list(Pageable pageable) {
+/*        JPQLQuery<Reply> query = from(reply);
+
+        JPQLQuery<ReplyDto> dtoJPQLQuery = query.select(Projections.fields(ReplyDto.class,
+                reply.reply_id,
+                reply.board,
+                reply.replyText,
+                reply.createdDate,
+                reply.username
+                ));
+
+        this.getQuerydsl().applyPagination(pageable,dtoJPQLQuery);
+        List<ReplyDto> dtoList = dtoJPQLQuery.fetch();
+        long count = dtoJPQLQuery.fetchCount();*/
+
+        return null;
+    }
+
+    @Override
+    public Page<ReplyDto> getListOfBoard(Long board_id,Pageable pageable) {
+
         JPQLQuery<Reply> query = from(reply);
-        query.innerJoin(reply).on(reply.board.eq(board));
+        query.leftJoin(board).on(board.eq(reply.board));
         query.where(board.board_id.eq(board_id));
 
         JPQLQuery<ReplyDto> dtoJPQLQuery = query.select(Projections.bean(ReplyDto.class,
                 reply.reply_id,
-                reply.replyer,
+                board.board_id,
                 reply.replyText,
                 reply.createdDate,
+                reply.username,
                 reply.modifiedDate));
 
         this.getQuerydsl().applyPagination(pageable,dtoJPQLQuery);
         List<ReplyDto> dtoList = dtoJPQLQuery.fetch();
+        long count = dtoJPQLQuery.fetchCount();
 
-        return dtoList;
+        return new PageImpl<>(dtoList,pageable,count);
     }
 }
