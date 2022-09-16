@@ -16,7 +16,7 @@ public class BoardListReplyCountDto {
     private String title;
 
     @NotEmpty
-    private String writer;
+    private String username;
 
     private Long replyCount;
 

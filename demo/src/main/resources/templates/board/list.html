@@ -55,12 +55,12 @@
                         <tbody th:with="link = ${pageRequestDto.getLink()}">
 
                         <tr th:each="dto:${responseDTO.dtoList}"  >
-                            <th scope="row">[[${dto.id}]]</th>
+                            <th scope="row">[[${dto.board_id}]]</th>
                             <td>
-                                <a th:href="@{'/board/read?id='+${dto.id}+'&'+${link}}">[[${dto.title}]]</a>
+                                <a th:href="@{'/board/read?id='+${dto.board_id}+'&'+${link}}">[[${dto.title}]]</a>
                                 <span class="badge progress-bar-success" style="background-color: #0a53be; color: white">[[${dto.replyCount}]]</span>
                             </td>
-                            <td>[[${dto.writer}]]</td>
+                            <td>[[${dto.username}]]</td>
                             <td>[[${#temporals.format(dto.createdDate, 'yyyy-MM-dd')}]]</td>
                         </tr>
 

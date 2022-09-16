@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text">ID</span>
-                        <input type="text" class="form-control" th:value="${dto.id}" readonly>
+                        <input type="text" class="form-control" th:value="${dto.board_id}" readonly>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Title</span>
@@ -31,7 +31,7 @@
 
                     <div class="input-group mb-3">
                         <span class="input-group-text">Writer</span>
-                        <input type="text" class="form-control" th:value="${dto.writer}" readonly>
+                        <input type="text" class="form-control" th:value="${dto.username}" readonly>
                     </div>
 
                     <div class="input-group mb-3">
@@ -48,7 +48,7 @@
                             <a th:href="@{'/board/list?'+${link}}" class="text-decoration-none">
                                 <button type="button" class="btn btn-primary">List</button>
                             </a>
-                            <a th:href="@{'/board/modify?id='+${dto.id}+'&'+${link}}" class="text-decoration-none">
+                            <a th:href="@{'/board/modify?id='+${dto.board_id}+'&'+${link}}" class="text-decoration-none">
                                 <button type="button" class="btn btn-secondary">Modify</button>
                             </a>
                         </div>
@@ -62,11 +62,38 @@
             </div><!--end card-->
         </div><!-- end col-->
     </div><!-- end row-->
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="my-4 ">
+                <button class="btn btn-info  addReplyBtn">ADD REPLY</button>
+            </div>
+            <ul class="list-group replyList">
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <ul class="pagination replyPaging">
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/js/reply.js"></script>
 </div>
+
+
 
 
 <script layout:fragment="script" th:inline="javascript">
 
 
+    const bno = [[${dto.board_id}]]
+    get1(bno).then(data=>{
+        console.log(data)
+    }).catch(e => {
+        console.log(e);
+    })
 
 </script>

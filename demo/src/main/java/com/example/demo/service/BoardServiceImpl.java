@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService{
     public PageResponseDto<BoardListReplyCountDto> listWithReplyCount(PageRequestDto pageRequestDto) {
         String[] types = pageRequestDto.getTypes();
         String keyword = pageRequestDto.getKeyword();
-        Pageable pageable = pageRequestDto.getPageable("id");
+        Pageable pageable = pageRequestDto.getPageable("createdDate");
 
         Page<BoardListReplyCountDto> result = boardRepository.searchWithReplyCount(types, keyword, pageable);
 
