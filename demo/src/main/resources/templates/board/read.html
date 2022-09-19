@@ -65,11 +65,17 @@
 
     <div class="row mt-3">
         <div class="col-md-12">
-            <div class="my-4 ">
-                <button class="btn btn-info  addReplyBtn">ADD REPLY</button>
-            </div>
+
             <ul class="list-group replyList">
             </ul>
+
+            <div class="input-group my-2">
+
+                <textarea class="form-control" aria-label="With textarea" style="border-radius: 4px"></textarea>
+                <div >
+                    <button class="btn btn-info  addReplyBtn ml-1" style="height: 60px">ADD REPLY</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row mt-3">
@@ -90,14 +96,41 @@
     const bno = [[${dto.board_id}]]
     const replyList = document.querySelector('.replyList');
     const replyPaging = document.querySelector('.replyPaging');
+    const nextBtn = document.querySelector('.nextBtn');
 
+
+    function printPage(data) {
+        console.log(data)
+        let pageStr = '';
+        if(data.prev){
+            pageStr += `<li class="page-item">
+                                <a class="page-link prevBtn" data-page="${data.start -1}">Previous</a>
+                            </li>`
+        }
+
+        for(let i= data.start; i<= data.end; i++){
+            pageStr += `  <li class="page-item ${data.page == i?' active':''}" >
+                                    <a class="page-link"  data-page="${i}">${i}</a>
+                                </li>`
+        }
+
+
+
+        if(data.next){
+            pageStr += `<li class="page-item">
+                                <a class="page-link nextBtn"  data-page="${data.end + 1}">Next</a>
+                            </li>`
+        }
+
+        replyPaging.innerHTML = pageStr;
+    }
 
     function printList(dtoList) {
         let str = '';
         if(dtoList && dtoList.length > 0){
             for(const dto of dtoList){
                 str += `<li class="list-group-item d-flex replyItem">
-                        <span class="col-2">${dto.board_id}</span>
+                        <span class="col-2">${dto.reply_id}</span>
                         <span class="col-2">${dto.replyText}</span>
                         <span class="col-2">${dto.username}</span>
                         <span class="col-2">${dto.createdDate}</span>
@@ -110,16 +143,41 @@
     }
 
 
+
+
     function getReplyList(page,size,goLast){
         getList({bno,page,size,goLast}).then(data=>{
             printList(data.dtoList);
+            printPage(data);
         }).catch(e => {
             console.log(e);
         })
     }
 
+    replyPaging.addEventListener("click",function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target;
+        const pageNum = target.getAttribute("data-page");
+        getReplyList(pageNum,5);
+    })
+
     getReplyList(1,5);
 
+    nextBtn.addEventListener("click",function (e) {
 
+        e.preventDefault()
+        e.stopPropagation()
+
+        let page = 6;
+        let size = 5;
+        getList({bno,page,size,goLast}).then(data=>{
+            printList(data.dtoList);
+            printPage(data);
+        }).catch(e => {
+            console.log(e);
+        })
+    })
 
 </script>
