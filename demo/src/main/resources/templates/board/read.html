@@ -71,9 +71,9 @@
 
             <div class="input-group my-2">
 
-                <textarea class="form-control" aria-label="With textarea" style="border-radius: 4px"></textarea>
+                <textarea class="form-control newReplyText" aria-label="With textarea" style="border-radius: 4px"></textarea>
                 <div >
-                    <button class="btn btn-info  addReplyBtn ml-1" style="height: 60px">ADD REPLY</button>
+                    <button type="button" class="btn btn-info addReplyBtn ml-1" style="height: 60px">ADD REPLY</button>
                 </div>
             </div>
         </div>
@@ -85,8 +85,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <script src="/js/reply.js"></script>
+
 </div>
 
 
@@ -96,8 +96,6 @@
     const bno = [[${dto.board_id}]]
     const replyList = document.querySelector('.replyList');
     const replyPaging = document.querySelector('.replyPaging');
-    const nextBtn = document.querySelector('.nextBtn');
-
 
     function printPage(data) {
         console.log(data)
@@ -134,6 +132,8 @@
                         <span class="col-2">${dto.replyText}</span>
                         <span class="col-2">${dto.username}</span>
                         <span class="col-2">${dto.createdDate}</span>
+                        <span class="col-2"><button class="btn btn-sm">수정</button>/
+                        <button type="button" class="btn btn-sm removeReplyBtn">삭제</button></span>
                         </li>
 
 `
@@ -165,19 +165,60 @@
 
     getReplyList(1,5);
 
-    nextBtn.addEventListener("click",function (e) {
+    const registerBtn = document.querySelector('.addReplyBtn');
 
-        e.preventDefault()
-        e.stopPropagation()
+    registerBtn.addEventListener("click", function(e){
+        const newReply = document.querySelector('.newReplyText').value;
+        const replyer = "user2";
 
-        let page = 6;
-        let size = 5;
-        getList({bno,page,size,goLast}).then(data=>{
-            printList(data.dtoList);
-            printPage(data);
-        }).catch(e => {
+        const replyObj = {
+            board_id:bno,
+            replyText:newReply,
+            username:replyer
+        };
+
+        addReply(replyObj).then(data =>{
+           // console.log(data);
+            getReplyList(1,5);
+        }).catch(e=>{
             console.log(e);
-        })
+        });
+
+
+    },false);
+
+
+    const removeBtn = document.querySelector('.removeReplyBtn');
+    removeBtn.addEventListener("click",function () {
+        console.log("hirr");
     })
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const nextBtn = document.querySelector('.nextBtn');
+
+        nextBtn.addEventListener("click",function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("hirr");
+            let page = 6;
+            let size = 5;
+            getList({bno,page,size,goLast}).then(data=>{
+                printList(data.dtoList);
+                printPage(data);
+            }).catch(e => {
+                console.log(e);
+            })
+        });
+
+
+
+
+    });
+
+
+
+</script>
+
+<script>
 
 </script>

@@ -9,3 +9,10 @@ async function getList({bno,page,size,goLast}) {
 
     return result.data;
 }
+
+async function addReply(replyObj) {
+    console.log(replyObj)
+    const result = await axios.post('/replies/',replyObj);
+
+    return result;
+}

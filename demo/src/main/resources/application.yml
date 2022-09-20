@@ -15,3 +15,14 @@ spring:
         show_sql: true
         format_sql: true
 
+
+  servlet:
+    multipart:
+      enabled: true
+      location: C:\\upload
+      max-file-size: 5MB
+      max-request-size: 15MB
+
+upload:
+  path: C:\\upload
+
