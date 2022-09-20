@@ -91,6 +91,6 @@ public class BoardServiceImpl implements BoardService{
     public Long register(BoardDto boardDto) {
         Board board = modelMapper.map(boardDto, Board.class);
         Board newBoard = boardRepository.save(board);
-        return newBoard.getBoard_id();
+        return newBoard.getId();
     }
 }

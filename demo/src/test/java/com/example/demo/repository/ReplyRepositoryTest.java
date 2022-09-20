@@ -64,11 +64,11 @@ class ReplyRepositoryTest {
     @Test
     public void test() throws Exception{
         //given
-        Long board_id = 20L;
+        Long board_id = 18L;
 
-        Board board = Board.builder().board_id(board_id).build();
+        Board board = Board.builder().id(board_id).build();
 
-        for(int i=1; i<19; i++){
+        for(int i=1; i<20; i++){
             String username = "user"+i;
             Reply reply = Reply.builder()
                     .board(board)

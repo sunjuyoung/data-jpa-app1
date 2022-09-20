@@ -48,11 +48,11 @@ public class ReplyCustomRepositoryImpl extends QuerydslRepositorySupport impleme
 
         JPQLQuery<Reply> query = from(reply);
         query.leftJoin(board).on(board.eq(reply.board));
-        query.where(board.board_id.eq(board_id));
+        query.where(board.id.eq(board_id));
 
         JPQLQuery<ReplyDto> dtoJPQLQuery = query.select(Projections.bean(ReplyDto.class,
-                reply.reply_id,
-                board.board_id,
+                reply.id,
+                board.id,
                 reply.replyText,
                 reply.createdDate,
                 reply.username,

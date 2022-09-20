@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.dto.BoardListReplyCountDto;
 import com.example.demo.entity.Board;
 import com.example.demo.entity.Member;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,15 +12,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Log4j2
 @SpringBootTest
 class BoardRepositoryTest {
 
@@ -31,6 +35,64 @@ class BoardRepositoryTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    ReplyRepository replyRepository;
+
+    @Test
+    @Transactional
+    @Commit
+    public void deleteReply() throws Exception{
+        //given
+        Long board_id = 18L;
+        replyRepository.deleteByBoard_Id(board_id);
+        boardRepository.deleteById(board_id);
+
+        //when
+
+        //then
+    }
+
+
+
+    @Transactional
+    @Rollback(value = false)
+    @Test
+    public void getWithImage() throws Exception{
+        //given
+
+        Optional<Board> byBoard_idWithImage = boardRepository.findByBoard_idWithImage(20L);
+        Board board = byBoard_idWithImage.orElseThrow();
+
+        //board.clearImage();
+
+        board.addImage(UUID.randomUUID().toString(),"tsetFile_1.jpg");
+
+        boardRepository.save(board);
+
+        //when
+
+        //then
+    }
+
+    @Test
+    public void testImage() throws Exception{
+        //given
+        Board board = Board.builder()
+                .content("content....")
+                .title("test image")
+                .username("user1")
+                .build();
+
+        board.addImage(UUID.randomUUID().toString(),"tsetFile_1.jpg");
+
+        boardRepository.save(board);
+
+        //when
+
+        //then
+    }
+
 
     @Test
     public void querydslDtoReplyCount() throws Exception{
@@ -113,13 +175,14 @@ class BoardRepositoryTest {
     public void tes1t() throws Exception{
         //given
 
-        IntStream.rangeClosed(1,20).forEach(i->{
+        IntStream.rangeClosed(34,44).forEach(i->{
             Board board = Board.builder()
                     .content("content...."+i)
                     .title("title..."+i)
                     .username("user"+i)
                     .build();
 
+            board.addImage(UUID.randomUUID().toString(),"testImage_"+i+".jpg");
             boardRepository.save(board);
         });
 

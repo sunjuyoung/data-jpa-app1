@@ -31,7 +31,7 @@ public class ReplyServiceImpl implements ReplyService{
     @Override
     public Long register(ReplyDto replyDto) {
         Reply reply = modelMapper.map(replyDto, Reply.class);
-        Long reply_id = replyRepository.save(reply).getReply_id();
+        Long reply_id = replyRepository.save(reply).getId();
         return reply_id;
     }
 
@@ -40,7 +40,7 @@ public class ReplyServiceImpl implements ReplyService{
     public Long modify(ReplyDto replyDto,Long reply_id) {
         Reply reply = replyRepository.findById(reply_id).orElseThrow();
         reply.changeText(replyDto.getReplyText());
-        return reply.getReply_id();
+        return reply.getId();
     }
 
     @Override
