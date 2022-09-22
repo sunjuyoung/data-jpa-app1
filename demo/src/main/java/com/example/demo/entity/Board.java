@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.*;
@@ -32,6 +33,7 @@ public class Board extends BaseTime{
                 cascade = {CascadeType.ALL},
                 orphanRemoval = true)
     @Builder.Default
+    @BatchSize(size = 6)
     private Set<BoardImage> imageSet = new HashSet<>();
 
     public void change(String title, String content){

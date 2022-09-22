@@ -8,6 +8,10 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +22,69 @@ class BoardServiceImplTest {
     @Autowired
     BoardService boardService;
 
+    @Test
+    public void modifyWithImage() throws Exception{
+        //given
+        BoardDto boardDto = BoardDto.builder()
+                .content("test image save")
+                .title("test image save")
+                .username("user2")
+                .id(45L)
+                .build();
+
+        boardDto.setFileName(
+                Arrays.asList(
+                        UUID.randomUUID()+"_aaa.jpg",
+                        UUID.randomUUID()+"_bbb.jpg",
+                        UUID.randomUUID()+"_ccc.jpg"
+                )
+        );
+
+        //when
+
+        //then
+    }
+
+    @Transactional
+    @Test
+    public void testRead() throws Exception{
+        //given
+        Long id = 45L;
+
+        BoardDto boardDto = boardService.readOne(id);
+        for(String file : boardDto.getFileName()){
+            log.info(file);
+        }
+
+        //when
+
+        //then
+    }
+
+    @Test
+    public void registerWithImage() throws Exception{
+        //given
+        BoardDto boardDto = BoardDto.builder()
+                .content("test image save")
+                .title("test image save")
+                .username("user2")
+                .build();
+
+        boardDto.setFileName(
+                Arrays.asList(
+                        UUID.randomUUID()+"_aaa.jpg",
+                        UUID.randomUUID()+"_bbb.jpg",
+                        UUID.randomUUID()+"_ccc.jpg"
+                )
+        );
+        Long register = boardService.register(boardDto);
+        log.info(register);
+
+
+        //when
+
+        //then
+    }
 
 
     @Test
@@ -41,7 +108,7 @@ class BoardServiceImplTest {
     public void modify() throws Exception{
         //given
         BoardDto board = BoardDto.builder()
-                .board_id(5L)
+                .id(5L)
                 .title("modify title...")
                 .content("modify content...")
                 .username("user2")

@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.BoardListAllDto;
 import com.example.demo.dto.BoardListReplyCountDto;
 import com.example.demo.entity.Board;
 import com.example.demo.entity.Member;
@@ -39,6 +40,27 @@ class BoardRepositoryTest {
     @Autowired
     ReplyRepository replyRepository;
 
+
+
+    @Test
+    @Transactional
+    public void test3() throws Exception{
+        //given
+        Pageable pageable = PageRequest.of(0,5,Sort.by("id").descending());
+        //Page<BoardListAllDto> boardListAllDtos = boardRepository.searchWithAll(null, null, pageable);
+
+        Page<BoardListAllDto> boardListAllDtos = boardRepository.searchWithAllByProjection(null, null, pageable);
+
+        log.info(boardListAllDtos.getTotalElements());
+
+        boardListAllDtos.getContent().forEach(boardListAllDto -> log.info(boardListAllDto));
+
+
+        //when
+
+        //then
+    }
+
     @Test
     @Transactional
     @Commit
@@ -61,13 +83,15 @@ class BoardRepositoryTest {
     public void getWithImage() throws Exception{
         //given
 
-        Optional<Board> byBoard_idWithImage = boardRepository.findByBoard_idWithImage(20L);
+        Optional<Board> byBoard_idWithImage = boardRepository.findByIdWithImages(19L);
         Board board = byBoard_idWithImage.orElseThrow();
 
         //board.clearImage();
 
-        board.addImage(UUID.randomUUID().toString(),"tsetFile_1.jpg");
+        for(int i=1; i<5; i++){
+            board.addImage(UUID.randomUUID().toString(),"tsetFile_"+i+".jpg");
 
+        }
         boardRepository.save(board);
 
         //when

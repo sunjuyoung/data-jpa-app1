@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.BoardDto;
-import com.example.demo.dto.BoardListReplyCountDto;
-import com.example.demo.dto.PageRequestDto;
-import com.example.demo.dto.PageResponseDto;
+import com.example.demo.dto.*;
 import com.example.demo.entity.Board;
 import com.example.demo.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -67,10 +64,23 @@ public class BoardServiceImpl implements BoardService{
                 .build();
     }
 
+    @Override
+    public PageResponseDto<BoardListAllDto> listWithAll(PageRequestDto pageRequestDto) {
+        return null;
+    }
+
     @Transactional
     @Override
     public void modify(BoardDto boardDto) {
-        Board board = boardRepository.findById(boardDto.getBoard_id()).orElseThrow();
+        Board board = boardRepository.findById(boardDto.getId()).orElseThrow();
+        board.clearImage();
+
+        if(boardDto.getFileName() != null){
+            boardDto.getFileName().forEach(s -> {
+                String[] arr = s.split("_");
+                board.addImage(arr[0],arr[1]);
+            });
+        }
         board.change(boardDto.getTitle(),boardDto.getContent());
     }
 
@@ -81,15 +91,17 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardDto readOne(Long id) {
-        Optional<Board> board = boardRepository.findById(id);
+        Optional<Board> board = boardRepository.findByIdWithImages(id);
         Board board1 = board.orElseThrow();
-        BoardDto boardDto = modelMapper.map(board1, BoardDto.class);
+        BoardDto boardDto = entityToDto(board1);
+       // BoardDto boardDto = modelMapper.map(board1, BoardDto.class);
         return boardDto;
     }
 
     @Override
     public Long register(BoardDto boardDto) {
-        Board board = modelMapper.map(boardDto, Board.class);
+        //Board board = modelMapper.map(boardDto, Board.class);
+        Board board = dtoToEntity(boardDto);
         Board newBoard = boardRepository.save(board);
         return newBoard.getId();
     }

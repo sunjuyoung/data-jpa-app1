@@ -18,8 +18,8 @@ public interface BoardRepository extends JpaRepository<Board,Long> , BoardSearch
     Page<Board> findContentKeyword(String content,Pageable pageable);
 
     @EntityGraph(attributePaths = {"imageSet"})
-    @Query("select b from Board b where b.id=:board_id")
-    Optional<Board> findByBoard_idWithImage(Long board_id);
+    @Query("select b from Board b where b.id =:id")
+    Optional<Board> findByIdWithImages(Long id);
 
 
 

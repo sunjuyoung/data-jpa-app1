@@ -1,11 +1,11 @@
 package com.example.demo.repository.search;
 
+import com.example.demo.dto.BoardImageDto;
+import com.example.demo.dto.BoardListAllDto;
 import com.example.demo.dto.BoardListReplyCountDto;
-import com.example.demo.entity.Board;
-import com.example.demo.entity.QBoard;
-import com.example.demo.entity.QReply;
-import com.example.demo.entity.Reply;
+import com.example.demo.entity.*;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.demo.entity.QBoard.*;
 import static com.example.demo.entity.QReply.*;
@@ -23,6 +24,81 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     public BoardSearchImpl() {
         super(Board.class);
     }
+
+    @Override
+    public Page<BoardListAllDto> searchWithAllByProjection(String[] types, String keyword, Pageable pageable) {
+        JPQLQuery<Board> boardJPQLQuery = from(board);
+        boardJPQLQuery.leftJoin(reply).on(reply.board.eq(board));
+
+        boardJPQLQuery.groupBy(board);
+
+        JPQLQuery<BoardListAllDto> dtoJPQLQuery =
+                boardJPQLQuery.select(Projections.fields(BoardListAllDto.class,
+                        board.title,
+                        board.id,
+                        board.username,
+                        board.imageSet,
+                        board.createdDate
+                     //  reply.count().as("replyCount")
+                ));
+
+        this.getQuerydsl().applyPagination(pageable,dtoJPQLQuery);
+        List<BoardListAllDto> dtoList = dtoJPQLQuery.fetch();
+        long count = dtoJPQLQuery.fetchCount();
+
+       // return new PageImpl<>(dtoList,pageable,count);
+        return null;
+    }
+
+    @Override
+    public Page<BoardListAllDto> searchWithAll(String[] types, String keyword, Pageable pageable) {
+
+        JPQLQuery<Board> boardJPQLQuery = from(board);
+        boardJPQLQuery.leftJoin(reply).on(reply.board.eq(board));
+
+        boardJPQLQuery.groupBy(board);
+
+        getQuerydsl().applyPagination(pageable,boardJPQLQuery);
+
+        JPQLQuery<Tuple> tupleJPQLQuery = boardJPQLQuery.select(board,reply.countDistinct());
+
+        List<Tuple> tupleList = tupleJPQLQuery.fetch();
+
+        List<BoardListAllDto> dtoList = tupleList.stream().map(tuple -> {
+            Board board1 = (Board) tuple.get(board);
+            long replyCount = tuple.get(1, Long.class);
+
+            BoardListAllDto dto = BoardListAllDto.builder()
+                    .id(board1.getId())
+                    .title(board1.getTitle())
+                    .createdDate(board1.getCreatedDate())
+                    .replyCount(replyCount)
+                    .username(board1.getUsername())
+                    .build();
+
+
+            //BoardImage
+            List<BoardImageDto> boardImageDtos  = board1.getImageSet().stream().sorted().map(boardImage -> {
+                BoardImageDto boardImageDto = BoardImageDto.builder()
+                        .fileName(boardImage.getFileName())
+                        .ord(boardImage.getOrd())
+                        .uuid(boardImage.getUuid())
+                        .build();
+                return boardImageDto;
+            }).collect(Collectors.toList());
+
+            dto.setBoardImages(boardImageDtos);
+
+            return dto;
+        }).collect(Collectors.toList());
+
+
+        long totalCount = boardJPQLQuery.fetchCount();
+
+        return new PageImpl<>(dtoList,pageable,totalCount);
+    }
+
+
 
     @Override
     public Page<BoardListReplyCountDto> searchWithReplyCount(String[] types, String keyword, Pageable pageable) {
