@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReplyDto {
 
-    private Long id;
+    private Long replyId;
 
-    private Long board_id;
+    private Long boardId;
 
 
     @NotEmpty

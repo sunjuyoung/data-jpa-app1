@@ -8,9 +8,10 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Entity
-@Table(name = "reply",indexes = {
-        @Index(name = "idx_reply_board_id", columnList = "board_id")
-})
+@Table(name = "reply"
+/*        ,indexes = {
+        @Index(name = "idx_reply_boardId", columnList = "board_boardId")}*/
+        )
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 public class Reply extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long replyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;

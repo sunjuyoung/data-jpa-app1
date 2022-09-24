@@ -35,7 +35,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         JPQLQuery<BoardListAllDto> dtoJPQLQuery =
                 boardJPQLQuery.select(Projections.fields(BoardListAllDto.class,
                         board.title,
-                        board.id,
+                        board.boardId,
                         board.username,
                         board.imageSet,
                         board.createdDate
@@ -69,7 +69,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
             long replyCount = tuple.get(1, Long.class);
 
             BoardListAllDto dto = BoardListAllDto.builder()
-                    .id(board1.getId())
+                    .boardId(board1.getBoardId())
                     .title(board1.getTitle())
                     .createdDate(board1.getCreatedDate())
                     .replyCount(replyCount)
@@ -124,12 +124,12 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
             }
             query.where(builder);
         }
-        query.where(board.id.gt(0L));
+        query.where(board.boardId.gt(0L));
 
         //Projections.bean() 이용해서 dto로 처리
         JPQLQuery<BoardListReplyCountDto> dtoJPQLQuery =
                 query.select(Projections.bean(BoardListReplyCountDto.class,
-                        board.id,
+                        board.boardId,
                         board.title,
                         board.username,
                         board.createdDate,
@@ -162,7 +162,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
             }
             query.where(booleanBuilder);
         }
-        query.where(board.id.gt(0L));
+        query.where(board.boardId.gt(0L));
         this.getQuerydsl().applyPagination(pageable,query);
         List<Board> list = query.fetch();
 

@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text">ID</span>
-                        <input type="text" class="form-control" th:value="${dto.board_id}" readonly>
+                        <input type="text" class="form-control" th:value="${dto.boardId}" readonly>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Title</span>
@@ -48,7 +48,7 @@
                             <a th:href="@{'/board/list?'+${link}}" class="text-decoration-none">
                                 <button type="button" class="btn btn-primary">List</button>
                             </a>
-                            <a th:href="@{'/board/modify?id='+${dto.board_id}+'&'+${link}}" class="text-decoration-none">
+                            <a th:href="@{'/board/modify?id='+${dto.boardId}+'&'+${link}}" class="text-decoration-none">
                                 <button type="button" class="btn btn-secondary">Modify</button>
                             </a>
                         </div>
@@ -93,7 +93,8 @@
 
 
 <script layout:fragment="script" th:inline="javascript">
-    const bno = [[${dto.board_id}]]
+    const bno = [[${dto.boardId}]]
+    console.log(bno);
     const replyList = document.querySelector('.replyList');
     const replyPaging = document.querySelector('.replyPaging');
 
@@ -128,7 +129,7 @@
         if(dtoList && dtoList.length > 0){
             for(const dto of dtoList){
                 str += `<li class="list-group-item d-flex replyItem">
-                        <span class="col-2">${dto.reply_id}</span>
+                        <span class="col-2">${dto.replyId}</span>
                         <span class="col-2">${dto.replyText}</span>
                         <span class="col-2">${dto.username}</span>
                         <span class="col-2">${dto.createdDate}</span>
@@ -172,7 +173,7 @@
         const replyer = "user2";
 
         const replyObj = {
-            board_id:bno,
+            boardId:bno,
             replyText:newReply,
             username:replyer
         };

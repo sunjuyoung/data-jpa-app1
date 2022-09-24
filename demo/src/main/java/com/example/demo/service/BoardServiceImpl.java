@@ -66,13 +66,24 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public PageResponseDto<BoardListAllDto> listWithAll(PageRequestDto pageRequestDto) {
-        return null;
+        String[] types = pageRequestDto.getTypes();
+        String keyword = pageRequestDto.getKeyword();
+        Pageable pageable = pageRequestDto.getPageable("createdDate");
+
+        Page<BoardListAllDto> boardListAllDtos = boardRepository.searchWithAll(types, keyword, pageable);
+
+        List<BoardListAllDto> content = boardListAllDtos.getContent();
+        return PageResponseDto.<BoardListAllDto>withAll()
+                .pageRequestDto(pageRequestDto)
+                .dtoList(content)
+                .total((int)boardListAllDtos.getTotalElements())
+                .build();
     }
 
     @Transactional
     @Override
     public void modify(BoardDto boardDto) {
-        Board board = boardRepository.findById(boardDto.getId()).orElseThrow();
+        Board board = boardRepository.findById(boardDto.getBoardId()).orElseThrow();
         board.clearImage();
 
         if(boardDto.getFileName() != null){
@@ -103,6 +114,6 @@ public class BoardServiceImpl implements BoardService{
         //Board board = modelMapper.map(boardDto, Board.class);
         Board board = dtoToEntity(boardDto);
         Board newBoard = boardRepository.save(board);
-        return newBoard.getId();
+        return newBoard.getBoardId();
     }
 }

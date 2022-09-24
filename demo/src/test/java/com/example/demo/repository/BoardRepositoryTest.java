@@ -67,7 +67,7 @@ class BoardRepositoryTest {
     public void deleteReply() throws Exception{
         //given
         Long board_id = 18L;
-        replyRepository.deleteByBoard_Id(board_id);
+        replyRepository.deleteByBoardId(board_id);
         boardRepository.deleteById(board_id);
 
         //when
@@ -199,7 +199,7 @@ class BoardRepositoryTest {
     public void tes1t() throws Exception{
         //given
 
-        IntStream.rangeClosed(34,44).forEach(i->{
+        IntStream.rangeClosed(1,44).forEach(i->{
             Board board = Board.builder()
                     .content("content...."+i)
                     .title("title..."+i)

@@ -9,11 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ReplyRepository extends JpaRepository<Reply,Long>, ReplyCustomRepository {
 
-    @Query("select r from Reply r where r.board.id = :board_id")
-    Page<Reply> listOfBoard(Long board_id,Pageable pageable);
+    @Query("select r from Reply r where r.board.boardId = :boardId")
+    Page<Reply> listOfBoard(Long boardId,Pageable pageable);
 
 
-    void deleteByBoard_Id(Long board_id);
+    @Query("delete from Reply r where r.board.boardId = :boardId")
+    void deleteByBoardId(Long boardId);
 
 
 

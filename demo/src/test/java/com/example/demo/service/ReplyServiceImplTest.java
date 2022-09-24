@@ -54,7 +54,7 @@ class ReplyServiceImplTest {
         //given
         ReplyDto replyDto = ReplyDto.builder()
                 .replyText("test...3")
-                .board_id(17L)
+                .boardId(17L)
                 .username("user1")
                 .build();
         Long register = replyService.register(replyDto);

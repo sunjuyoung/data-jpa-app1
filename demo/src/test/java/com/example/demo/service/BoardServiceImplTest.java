@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -22,23 +23,28 @@ class BoardServiceImplTest {
     @Autowired
     BoardService boardService;
 
+    @Transactional
+    @Rollback(value = false)
     @Test
     public void modifyWithImage() throws Exception{
         //given
         BoardDto boardDto = BoardDto.builder()
-                .content("test image save")
-                .title("test image save")
+                .content("test image save222222")
+                .title("test image save22222222")
                 .username("user2")
-                .id(45L)
+                .boardId(45L)
                 .build();
 
         boardDto.setFileName(
                 Arrays.asList(
-                        UUID.randomUUID()+"_aaa.jpg",
-                        UUID.randomUUID()+"_bbb.jpg",
-                        UUID.randomUUID()+"_ccc.jpg"
+                        UUID.randomUUID()+"_aaa.jpg"
+
                 )
         );
+
+
+        boardService.modify(boardDto);
+
 
         //when
 
@@ -108,7 +114,7 @@ class BoardServiceImplTest {
     public void modify() throws Exception{
         //given
         BoardDto board = BoardDto.builder()
-                .id(5L)
+                .boardId(5L)
                 .title("modify title...")
                 .content("modify content...")
                 .username("user2")

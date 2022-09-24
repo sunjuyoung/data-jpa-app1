@@ -64,9 +64,9 @@ class ReplyRepositoryTest {
     @Test
     public void test() throws Exception{
         //given
-        Long board_id = 18L;
+        Long boardId = 44L;
 
-        Board board = Board.builder().id(board_id).build();
+        Board board = Board.builder().boardId(boardId).build();
 
         for(int i=1; i<20; i++){
             String username = "user"+i;

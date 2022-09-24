@@ -28,11 +28,15 @@ public class ReplyServiceImpl implements ReplyService{
     private final BoardRepository boardRepository;
 
 
+    @Transactional
     @Override
     public Long register(ReplyDto replyDto) {
-        Reply reply = modelMapper.map(replyDto, Reply.class);
-        Long reply_id = replyRepository.save(reply).getId();
-        return reply_id;
+        log.info("================");
+        log.info(replyDto.toString());
+        //Reply reply = modelMapper.map(replyDto, Reply.class);
+        Reply reply = dtoToEntity(replyDto);
+        Long replyId = replyRepository.save(reply).getReplyId();
+        return replyId;
     }
 
     @Transactional
@@ -40,7 +44,7 @@ public class ReplyServiceImpl implements ReplyService{
     public Long modify(ReplyDto replyDto,Long reply_id) {
         Reply reply = replyRepository.findById(reply_id).orElseThrow();
         reply.changeText(replyDto.getReplyText());
-        return reply.getId();
+        return reply.getReplyId();
     }
 
     @Override

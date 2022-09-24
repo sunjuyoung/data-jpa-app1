@@ -17,7 +17,7 @@ import java.util.*;
 public class Board extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long boardId;
 
     @Column(length = 100, nullable = false)
     private String title;

@@ -41,6 +41,7 @@ public interface BoardService {
     }
     default BoardDto entityToDto(Board board){
         BoardDto boardDto = BoardDto.builder()
+                .boardId(board.getBoardId())
                 .username(board.getUsername())
                 .title(board.getTitle())
                 .content(board.getContent())

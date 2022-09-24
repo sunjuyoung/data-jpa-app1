@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BoardListAllDto {
 
-    private Long id;
+    private Long boardId;
 
     @NotEmpty
     @Size(min = 3,max = 100)
