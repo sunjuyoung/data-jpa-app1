@@ -26,3 +26,6 @@ spring:
 upload:
   path: C:\\upload
 
+logging:
+  level:
+    com.example.demo: debug

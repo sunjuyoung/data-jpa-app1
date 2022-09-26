@@ -43,7 +43,7 @@
 
                         <div class="my-4">
                             <div class="float-end">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                         </div>
@@ -144,10 +144,40 @@
             <div class="card-body">
                  <img src="/view/${link}" data-src="${uuid+"_"+fileName}" >
             </div>
-        </div><!-- card -->`
+        </div>`
 
             uploadResult.innerHTML += str;
         }
+
+        function removeFile(uuid,fileName,obj) {
+
+            const targetDiv = obj.closest(".card")
+
+            removeFileToServer(uuid,fileName).then(data=>{
+                targetDiv.remove();
+            })
+        }
+
+        document.querySelector(".submitBtn").addEventListener("click",function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+           const uploadFiles = document.querySelectorAll(".img");
+           const target = document.querySelector('.uploadHidden');
+
+           let str = '';
+           for(let i=0; i<uploadFiles.length; i++){
+               const uploadFile = uploadFiles[i];
+               const imgLink = uploadFiles.getAttribute("data-src");
+
+               str+= `<input type="hidden" name="fileNames" value="${imgLink}">`
+
+           }
+           target.innerHTML = str;
+
+            document.querySelector("form").submit();
+        })
+
     </script>
 </div>
 

@@ -43,6 +43,15 @@
                         <input type="text" class="form-control" th:value="${#temporals.format(dto.modifiedDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                     </div>
 
+                    <div class="card col-4">
+                        <div class="card-header d-flex justify-content-center" th:if="${dto.fileName != null && dto.fileName.size()>0}">
+
+                        </div>
+                        <div class="card-body">
+                            <img th:each="fileNames: ${dto.fileName}" th:src="@{'/view/'+${fileNames}}">
+                        </div>
+                    </div>`
+
                     <div class="my-4">
                         <div class="float-end" th:with="link = ${pageRequestDto.getLink()}">
                             <a th:href="@{'/board/list?'+${link}}" class="text-decoration-none">
