@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Member;
+import com.example.demo.mapper.MemberMapper;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final MemberMapper memberMapper;
 
     public Member saveMember(Member member){
         validateDuplicateMember(member);
@@ -35,14 +37,17 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberMapper.findByEmail(email);
+        //Member member = memberRepository.findByEmail(email);
         if(member == null){
             throw new UsernameNotFoundException(email);
         }
 
-        return User.builder().username(member.getEmail())
+        UserDetails userDetails = User.builder().username(member.getNickname())
                 .password(member.getPassword())
                 .roles(member.getRole().toString())
                 .build();
+
+        return userDetails;
     }
 }

@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/shop
-    username: root
+    username: sun
     password: rnrdj123
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
@@ -29,3 +29,5 @@ upload:
 logging:
   level:
     com.example.demo: debug
+mybatis:
+  type-aliases-package: com.example.demo

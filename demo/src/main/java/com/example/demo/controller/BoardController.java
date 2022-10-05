@@ -8,6 +8,7 @@ import com.example.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,6 +50,8 @@ public class BoardController {
     }
 
 
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify")
     public String modifyForm(Long id, PageRequestDto pageRequestDto,Model model){
         BoardDto boardDto = boardService.readOne(id);
@@ -57,6 +60,7 @@ public class BoardController {
         return "board/modify";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/read")
     public String read(Long id, PageRequestDto pageRequestDto,Model model){
         BoardDto boardDto = boardService.readOne(id);
@@ -78,6 +82,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/register")
     public String registerForm(){
         return "board/register";

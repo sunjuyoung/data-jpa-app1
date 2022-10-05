@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{layouts/layout1.html}">
 
 
@@ -29,7 +30,7 @@
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">username</span>
-                            <input type="text" name="username" class="form-control" placeholder="username">
+                            <input type="text" name="username" class="form-control" th:value="${#authentication.principal.username}" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Images</span>
@@ -79,6 +80,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/upload.js"></script>
     <script  th:inline="javascript">
+
+        const auth = [[${#authentication.principal}]]
+
+
+
 
         const errors = [[${errors}]]
 

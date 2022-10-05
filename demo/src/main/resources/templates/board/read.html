@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{layouts/layout1.html}">
+
+
 
 <head>
     <title>Board Read</title>
@@ -52,12 +55,13 @@
                         </div>
                     </div>`
 
-                    <div class="my-4">
+                    <div class="my-4" th:with="user=${#authentication.principal}">
                         <div class="float-end" th:with="link = ${pageRequestDto.getLink()}">
                             <a th:href="@{'/board/list?'+${link}}" class="text-decoration-none">
                                 <button type="button" class="btn btn-primary">List</button>
                             </a>
-                            <a th:href="@{'/board/modify?id='+${dto.boardId}+'&'+${link}}" class="text-decoration-none">
+                            <a th:if="${user != null && user.username == dto.username}"
+                                    th:href="@{'/board/modify?id='+${dto.boardId}+'&'+${link}}" class="text-decoration-none">
                                 <button type="button" class="btn btn-secondary">Modify</button>
                             </a>
                         </div>
@@ -143,7 +147,7 @@
                         <span class="col-2">${dto.username}</span>
                         <span class="col-2">${dto.createdDate}</span>
                         <span class="col-2"><button class="btn btn-sm">수정</button>/
-                        <button type="button" class="btn btn-sm removeReplyBtn">삭제</button></span>
+                        <button type="button" class="btn btn-sm"  id="removeReplyBtn">삭제</button></span>
                         </li>
 
 `
@@ -171,7 +175,7 @@
         const target = e.target;
         const pageNum = target.getAttribute("data-page");
         getReplyList(pageNum,5);
-    })
+    },false)
 
     getReplyList(1,5);
 
@@ -198,12 +202,19 @@
     },false);
 
 
-    const removeBtn = document.querySelector('.removeReplyBtn');
-    removeBtn.addEventListener("click",function () {
-        console.log("hirr");
+
+    $(document).on("click","#removeReplyBtn",function (){
+        const btnRemove = document.getElementById('removeReplyBtn')
+
+        btnRemove.addEventListener("click",function (){
+            console.log("hi");
+        },false)
     })
 
-    document.addEventListener("DOMContentLoaded", () => {
+
+    if ( document.readyState !== "loading" ) {
+        console.log("done..");
+
         const nextBtn = document.querySelector('.nextBtn');
 
         nextBtn.addEventListener("click",function (e) {
@@ -218,12 +229,12 @@
             }).catch(e => {
                 console.log(e);
             })
-        });
+        },false);
 
 
 
 
-    });
+    };
 
 
 
